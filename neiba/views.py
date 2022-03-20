@@ -78,6 +78,21 @@ def create_hood(request):
         form = NeighbourHoodForm()
     return render(request, 'newhood.html', {'form': form})
 
+@login_required(login_url='login')
+def create_post(request, hood_id):
+    hood = NeighbourHood.objects.get(id=hood_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.hood = hood
+            post.user = request.user.profile
+            post.save()
+            return redirect('single-hood', hood.id)
+    else:
+        form = PostForm()
+    return render(request, 'post.html', {'form': form})   
+
 def hoods(request):
     all_hoods = NeighbourHood.objects.all()
     all_hoods = all_hoods[::-1]
