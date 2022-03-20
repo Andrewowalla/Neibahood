@@ -39,6 +39,11 @@ def loginPage(request):
     }
     return render(request, 'registration/login.html', context)
 
+def logoutUser(request):
+    logout(request)
+    return redirect('hoods')
+
+
 def hoods(request):
     all_hoods = NeighbourHood.objects.all()
     all_hoods = all_hoods[::-1]
