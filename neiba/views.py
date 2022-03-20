@@ -172,4 +172,10 @@ def single_hood(request, hood_id):
         'form': form,
         'posts': posts
     }
-    return render(request, 'hood.html', params)        
+    return render(request, 'hood.html', params)
+
+@login_required(login_url='login')
+def hood_members(request, hood_id):
+    hood = NeighbourHood.objects.get(id=hood_id)
+    members = Profile.objects.filter(neighbourhood=hood)
+    return render(request, 'members.html', {'members': members})     
