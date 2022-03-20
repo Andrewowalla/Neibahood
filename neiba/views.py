@@ -64,6 +64,20 @@ def registerUser(request):
 
     return render(request, 'registration/login.html', context)
 
+@login_required(login_url='login')
+def create_hood(request):
+    if request.method == 'POST':
+        form = NeighbourHoodForm(request.POST, request.FILES)
+        if form.is_valid():
+            hood = form.save(commit=False)
+            hood.admin = request.user.profile
+            hood.save()
+            return redirect('hoods')   
+
+    else:
+        form = NeighbourHoodForm()
+    return render(request, 'newhood.html', {'form': form})
+
 def hoods(request):
     all_hoods = NeighbourHood.objects.all()
     all_hoods = all_hoods[::-1]
