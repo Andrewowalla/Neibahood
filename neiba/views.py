@@ -43,6 +43,26 @@ def logoutUser(request):
     logout(request)
     return redirect('hoods')
 
+def registerUser(request):
+    page = 'register'
+    form = RegisterForm()
+
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('hoods')
+        else:
+            messages.error(request, 'An error occured during registration')
+    context = {
+        'form':form,
+        'page':page
+    }
+
+    return render(request, 'registration/login.html', context)
 
 def hoods(request):
     all_hoods = NeighbourHood.objects.all()
