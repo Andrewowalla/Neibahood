@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'neiba',
-    'bootstrap5',
+    # 'bootstrap5',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',

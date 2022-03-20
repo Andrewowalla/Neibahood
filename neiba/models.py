@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 class NeighbourHood(models.Model):
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=60)
-    admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='hood')
+    # admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='hood')
     logo = CloudinaryField("image")
     description = models.TextField()
     health_no = models.IntegerField(null=True, blank=True)
