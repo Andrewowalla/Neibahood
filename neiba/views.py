@@ -148,4 +148,28 @@ def search_business(request):
         return render(request, 'results.html', params)
     else:
         message = "You haven't searched for any image category"
-    return render(request, "search.html")         
+    return render(request, "search.html")
+
+@login_required(login_url='login')
+def single_hood(request, hood_id):
+    hood = NeighbourHood.objects.get(id=hood_id)
+    business = Business.objects.filter(neighbourhood=hood)
+    posts = Post.objects.filter(hood=hood)
+    posts = posts[::-1]
+    if request.method == 'POST':
+        form = BusinessForm(request.POST)
+        if form.is_valid():
+            b_form = form.save(commit=False)
+            b_form.neighbourhood = hood
+            b_form.user = request.user.profile
+            b_form.save()
+            return redirect('single-hood', hood.id)
+    else:
+        form = BusinessForm()
+    params = {
+        'hood': hood,
+        'business': business,
+        'form': form,
+        'posts': posts
+    }
+    return render(request, 'hood.html', params)        
