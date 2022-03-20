@@ -1,6 +1,12 @@
-from django.shortcuts import render
-from .models import   NeighbourHood
-
+from django.shortcuts import render,get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from .forms import RegisterForm
+from .models import   Post, User,NeighbourHood,Business,Profile
+from .forms import  NeighbourHoodForm,PostForm,UpdateProfileForm,BusinessForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
