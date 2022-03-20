@@ -178,4 +178,18 @@ def single_hood(request, hood_id):
 def hood_members(request, hood_id):
     hood = NeighbourHood.objects.get(id=hood_id)
     members = Profile.objects.filter(neighbourhood=hood)
-    return render(request, 'members.html', {'members': members})     
+    return render(request, 'members.html', {'members': members})
+
+@login_required(login_url='login')
+def createBusiness(request):
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.admin = request.user.profile
+            business.save()
+            return redirect('hoods')   
+
+    else:
+        form = BusinessForm()
+    return render(request, 'new_business.html', {'form': form})   
